@@ -24,6 +24,13 @@ use App\Http\Controllers\Admin\Tag\ShowController as ShowTag;
 use App\Http\Controllers\Admin\Tag\EditController as EditTag;
 use App\Http\Controllers\Admin\Tag\UpdateController as UpdateTag;
 use App\Http\Controllers\Admin\Tag\DeleteController as DeleteTag;
+use App\Http\Controllers\Admin\User\UserController;
+use App\Http\Controllers\Admin\User\CreateController as CreateUser;
+use App\Http\Controllers\Admin\User\StoreController as StoreUser;
+use App\Http\Controllers\Admin\User\ShowController as ShowUser;
+use App\Http\Controllers\Admin\User\EditController as EditUser;
+use App\Http\Controllers\Admin\User\UpdateController as UpdateUser;
+use App\Http\Controllers\Admin\User\DeleteController as DeleteUser;
 
 
 /*
@@ -75,6 +82,16 @@ Route::prefix('tags')->group(function() {
     Route::get('/{tag}/edit', EditTag::class)->name('admin.tag.edit');
     Route::patch('/{tag}', UpdateTag::class)->name('admin.tag.update');
     Route::delete('/{tag}', DeleteTag::class)->name('admin.tag.delete');
+    });
+
+Route::prefix('users')->group(function() {
+    Route::get('/', UserController::class)->name('admin.user.index');
+    Route::get('/create', CreateUser::class)->name('admin.user.create');
+    Route::post('/', StoreUser::class)->name('admin.user.store');
+    Route::get('/{user}', ShowUser::class)->name('admin.user.show');
+    Route::get('/{user}/edit', EditUser::class)->name('admin.user.edit');
+    Route::patch('/{user}', UpdateUser::class)->name('admin.user.update');
+    Route::delete('/{user}', DeleteUser::class)->name('admin.user.delete');
     });
 });
 
