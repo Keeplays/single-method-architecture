@@ -24,7 +24,22 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string'
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'role' => 'required|integer',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'This field is required',
+            'name.string' => 'Name must be a string',
+            'email.required' => 'This field is required',
+            'email.string' => 'Email must be a string',
+            'email.email' => 'Your mail must match the format mail@some.domain',
+            'email.unique' => 'User with this email already exists',
+
         ];
     }
 }

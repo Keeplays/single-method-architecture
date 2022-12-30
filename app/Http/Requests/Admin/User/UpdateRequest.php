@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,7 +25,22 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string'
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users,email,' . $this->user_id,
+            'user_id' => 'required|integer|exists:users,id',
+            'role' => 'required|integer',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'This field is required',
+            'name.string' => 'Name must be a string',
+            'email.required' => 'This field is required',
+            'email.string' => 'Email must be a string',
+            'email.email' => 'Your mail must match the format mail@some.domain',
+            'email.unique' => 'User with this email already exists',
         ];
     }
 }

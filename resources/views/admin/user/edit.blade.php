@@ -32,8 +32,28 @@
                         <div class="form-group">
                             <input type="text" class="form-control" name="name" placeholder="Username" value="{{ $user->name }}">
                             @error('name')
-                                <div class="text-danger">This field is required</div>
+                                <div class="text-danger">{{ $message }}</div>
                             @enderror
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="email" placeholder="Email" value="{{ $user->email }}">
+                            @error('email')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group w-50">
+                            <label>Choose a role</label>
+                            <select name="role" class="form-control">
+                                @foreach($roles as $id => $role)
+                                    <option value="{{ $id }}" {{ $id == $user->role ? ' selected' : '' }}>{{ $role }}</option>
+                                @endforeach
+                            </select>
+                            @error('role')
+                            <div class="text-danger">{{ $message }}</div>
+                             @enderror
+                        </div>
+                        <div class="form-group w-50">
+                            <input type="hidden" name="user_id" value="{{ $user->id }}">
                         </div>
                         <input type="submit" class="btn btn-primary" value="Edit">
                     </form>
