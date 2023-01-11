@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\SendVerifyWithQueueNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,14 +14,14 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    const ROLE_ADMIN = 0;
-    const ROLE_READER = 1;
+    const ROLE_READER = 0;
+    const ROLE_ADMIN = 1;
 
     public static function getRoles()
     {
         return [
-            self::ROLE_ADMIN => 'Admin',
             self::ROLE_READER => 'Reader',
+            self::ROLE_ADMIN => 'Admin',
         ];
     }
 
@@ -54,4 +55,19 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new SendVerifyWithQueueNotification());
+    }
+
+    public function LikedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'post_user_likes', 'user_id', 'post_id');
+    }
+
+    public function comments()
+    {
+       return $this->hasMany(Comment::class, 'user_id', 'id');
+    }
 }
